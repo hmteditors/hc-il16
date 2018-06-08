@@ -55,7 +55,7 @@ def pageView(pageUrn: String) : Unit= {
 }
 
 
-println("\n\nCreate a view for a given page:")
+println("\n\nCreate a view of DSE relations for a given page:")
 println("\n\tpageView(PAGEURN)\n\n")
 
 
