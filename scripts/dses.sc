@@ -51,6 +51,7 @@ def pageView(pageUrn: String) : Unit= {
   val u = Cite2Urn(pageUrn)
   val md = mdForPage(u, dse)
   new PrintWriter("validation/dse-" + u.collection + "-" + u.objectComponent + ".md"){ write (md); close}
+  println("Markdown file linked to ICT2 is in validation directory: dse-" + u.collection + "-" + u.objectComponent + ".md")
 }
 
 
