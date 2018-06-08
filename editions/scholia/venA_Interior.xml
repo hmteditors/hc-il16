@@ -77,6 +77,7 @@
           </p>
           </div>
         </div>
+
         <div n="222r_1" type="scholion">
           <div type="lemma">
             <p>
@@ -87,9 +88,8 @@
           </div>
           <div type="comment">
             <p>
-              τὸ σὺν όχεςφιν ἑκατέροις δύναται προσδιδοσθαι⁑
+              τὸ σὺν όχεσφιν ἑκατέροις δύναται προσδιδοσθαι⁑
             </p>
-            </div>
           </div>
           </div>
           <div n="222r_2" type="scholion">
@@ -97,12 +97,13 @@
               <p>
               </p>
             </div>
+
             <div type="ref">
               <p>urn:cts:greekLit:tlg0012.tlg001.msA:16.828</p>
             </div>
             <div type="comment">
               <p>
-                <choice><abbr>οτ</abbr><expan>ὅτι</expan></choice> <choice><abbr>ουτ</abbr><expan>οὐτῶς</expan></choice> μὲν οὔτασεν, ὁδε <persName n="urn:cite2:hmt:pers:pers464">εὔφορβος</persName> βέβληκε⁑
+                <choice><abbr>οτ</abbr><expan>ὅτι</expan></choice> <choice><abbr>ουτ</abbr><expan>οὔτως</expan></choice> μὲν οὔτασεν, ὁδε <persName n="urn:cite2:hmt:pers:pers464">εὔφορβος</persName> βέβληκε⁑
               </p>
               </div>
             </div>

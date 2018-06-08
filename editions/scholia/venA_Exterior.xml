@@ -4,7 +4,7 @@
 <teiHeader>
   <fileDesc>
     <titleStmt>
-      <title>Venetus A Interior Scholia</title>
+      <title>Venetus A Exterior Scholia</title>
       <editor>James Garry</editor>
       <editor>Zach Sowerby</editor>
     </titleStmt>
@@ -16,7 +16,6 @@
     </sourceDesc>
   </fileDesc>
 </teiHeader>
-
 <text>
 <group n="16">
 <text n="msAext">
