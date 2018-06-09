@@ -21,42 +21,42 @@
 <text n="msAil">
 <body>
 <div n="220v_1" type="scholion">
-  <div type="lemma">
+  <div n="lemma">
     <p>
     </p>
   </div>
-  <div type="ref">
+  <div n="ref">
     <p>urn:cts:greekLit:tlg0012.tlg001.msA:16.747@τήθεα</p>
   </div>
-  <div type="comment">
+  <div n="comment">
     <p>
     όστρεα
     </p>
     </div>
   </div>
   <div n="220v_2" type="scholion">
-    <div type="lemma">
+    <div n="lemma">
       <p>
       </p>
     </div>
-    <div type="ref">
+    <div n="ref">
       <p>urn:cts:greekLit:tlg0012.tlg001.msA:16.754@ἆλσο</p>
     </div>
-    <div type="comment">
+    <div n="comment">
       <p>
       ὡς ᾶλτο
       </p>
       </div>
     </div>
     <div n="222r_1" type="scholion">
-      <div type="lemma">
+      <div n="lemma">
         <p>
         </p>
       </div>
-      <div type="ref">
+      <div n="ref">
         <p>urn:cts:greekLit:tlg0012.tlg001.msA:16.8184@πίδακοσ</p>
       </div>
-      <div type="comment">
+      <div n="comment">
         <p>
         περι μικρᾶς πηγῆς
         </p>
