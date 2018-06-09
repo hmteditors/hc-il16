@@ -41,20 +41,21 @@ def plural[T](v: Set[T]): String = {
 def mdForPage(u: Cite2Urn, dse: DseVector): String = {
   val md = StringBuilder.newBuilder
   val errors = StringBuilder.newBuilder
+  md.append(s"# DSE validation: `${u}`\n\n")
+  md.append(s"See all DSE relations of [page ${u.objectComponent} in ICT2](${dse.ictForSurface(u)})\n\n")
 
-  md.append(s"# DSE relations of page ${u}\n\nDSE relations of [${u.objectComponent}](${dse.ictForSurface(u)})\n\n")
   val  tbsTxts = dse.textsForTbs(u)
-  md.append(s"${tbsTxts.size} text passages indexed to ${u.objectComponent}\n\n")
+  md.append(s"-  ${tbsTxts.size} text passages indexed to ${u.objectComponent}\n\n")
 
   val imgs = dse.imagesForTbs(u)
   if (imgs.size != 1) {
     errors.append(s"- Error in indexing:  ${imgs.size} image${plural(imgs)} indexed to page ${u}\n\n")
   } else {
-    md.append(s"${u.objectComponent} indexed to reference image ${imgs.head}\n\n")
+    md.append(s"-  ${u.objectComponent} indexed to reference image `${imgs.head}`\n")
     val imgTxts = dse.textsForImage(imgs.head)
     if (imgTxts.size == tbsTxts.size) {
-        md.append("DSE relations are consistent: ")
-        md.append(s"${imgTxts.size} text passages indexed to ${imgs.head.objectComponent}")
+        md.append("- DSE relations are consistent: ")
+        md.append(s"${imgTxts.size} text passages indexed to ${imgs.head.objectComponent}\n\n")
     } else {
       errors.append(s"- Error in indexing: ${imgTxts.size} text passages indexed top image ${imgs.head.objectComponent}, but ${tbsTxts.size} passages indexed to page ${u.objectComponent}\n\n")
     }
