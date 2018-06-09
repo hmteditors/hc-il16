@@ -6,16 +6,20 @@ import edu.holycross.shot.cex._
 import java.io.PrintWriter
 import edu.holycross.shot.citeobj._
 
+
+// Header file with collection info
+// we need for DSE work.
 val libDir = "header"
+// Directory with DSE data:
 val dseDir = "dse"
-val tbsDir = "codices"
+// URL for ICT tool:
+val ict = "http://www.homermultitext.org/ict2/"
+
+
 
 val libHeader = DataCollector.compositeFiles(libDir, "cex")
 val dseCex = DataCollector.compositeFiles(dseDir, "cex")
-val codicesCex = DataCollector.compositeFiles(tbsDir, "cex")
 
-//val codexLibCex = libHeader + "\n" + codicesCex
-//val codexLib = CiteLibrary(codexLibCex, "#", ",")
 
 val records = dseCex.split("\n").filterNot(_.contains("passage#")).toVector
 
@@ -23,17 +27,10 @@ val baseUrn = "urn:cite2:hmt:tempDse.temp:"
 val dseRecords = for ((record, count) <- records.zipWithIndex) yield {
   s"${baseUrn}_${count}#Temporary DSE record ${count}#${record}"
 }
+
 val srcAll = libHeader + dseRecords.drop(1).mkString("\n")
 val dse = DseVector(srcAll)
 
-
-val codexRepo =  CiteCollectionRepository(codicesCex)
-val codexUrns = codexRepo.collections.toSeq
-
-val ict = "http://www.homermultitext.org/ict2/"
-
-
-//val u = Cite2Urn("urn:cite2:hmt:msA.v1:220r")
 
 def plural[T](v: Set[T]): String = {
   if (v.size == 1) { "s" } else {""}
@@ -97,18 +94,19 @@ println("\n\tvalidate(PAGEURN)\n\n")
 
 
 /*
-val mdReport = for (c <- codexUrns) yield {
-  val hdr = s"## DSE relations for manuscript ${c}\n\n"
-  val pgSeq = codexRepo.data ~~ c
+val dseAll = {
+  for (c <- codexUrns) yield {
+    val hdr = s"## DSE relations for manuscript ${c}\n\n"
+    val pgSeq = codexRepo.data ~~ c
 
-  val linkList = for (pg <- pgSeq.data) yield {
-    val dseLinks = dse.ictForSurface(pg.urn, ict)
-    if (dseLinks == ict) {
-      "NEED IMAGE FOR " + pg.urn
-    } else {
-      dseLinks
+    val linkList = for (pg <- pgSeq.data) yield {
+      val dseLinks = dse.ictForSurface(pg.urn, ict)
+      if (dseLinks == ict) {
+        "NEED IMAGE FOR " + pg.urn
+      } else {
+        dseLinks
+      }
     }
+    hdr + linkList.mkString("\n")
   }
-  hdr + linkList.mkString("\n")
-}
-*/
+}*/
