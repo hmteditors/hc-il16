@@ -23,12 +23,13 @@ val dseCex = DataCollector.compositeFiles(dseDir, "cex")
 
 val records = dseCex.split("\n").filterNot(_.contains("passage#")).toVector
 
-val baseUrn = "urn:cite2:hmt:tempDse.temp:"
+// This value must agree with header data in header/1.dse-prolog.cex.
+val baseUrn = "urn:cite2:validate:tempDse.temp:"
 val dseRecords = for ((record, count) <- records.zipWithIndex) yield {
-  s"${baseUrn}_${count}#Temporary DSE record ${count}#${record}"
+  s"${baseUrn}validate_${count}#Temporary DSE record ${count}#${record}"
 }
 
-val srcAll = libHeader + dseRecords.drop(1).mkString("\n")
+val srcAll = libHeader + dseRecords.mkString("\n")
 val dse = DseVector(srcAll)
 
 
