@@ -65,7 +65,7 @@ def mdForPage(u: Cite2Urn, dse: DseVector): String = {
     } else { md.append("\nResults are consistent: no errors found.\n\n")}
 
     md.append("## Human verification\n\n")
-    md.append(s"To check for **completeness** of coverage, please review [all DSE relations of page ${u.objectComponent} in ICT2](${dse.ictForSurface(u)}.)\n\n")
+    md.append(s"To check for **completeness** of coverage, please review [all DSE relations of page ${u.objectComponent} in ICT2](${dse.ictForSurface(u)}).\n\n")
 
     md
   }
