@@ -39,28 +39,34 @@ def plural[T](v: Set[T]): String = {
 def mdForPage(u: Cite2Urn, dse: DseVector): String = {
   val md = StringBuilder.newBuilder
   val errors = StringBuilder.newBuilder
-  md.append(s"# DSE validation: `${u}`\n\n")
-  md.append(s"See all DSE relations of [page ${u.objectComponent} in ICT2](${dse.ictForSurface(u)})\n\n")
+  md.append(s"# DSE report for `${u}`\n\n")
+  md.append("## Automated validation\n\n")
+  md.append("Validation for **consistency** of references:\n\n")
 
   val  tbsTxts = dse.textsForTbs(u)
-  md.append(s"-  ${tbsTxts.size} text passages indexed to ${u.objectComponent}\n\n")
+
 
   val imgs = dse.imagesForTbs(u)
   if (imgs.size != 1) {
-    errors.append(s"- Error in indexing:  ${imgs.size} image${plural(imgs)} indexed to page ${u}\n\n")
+    errors.append(s"- Error in indexing:  ${imgs.size} image${plural(imgs)} indexed to page ${u}\n")
   } else {
-    md.append(s"-  ${u.objectComponent} indexed to reference image `${imgs.head}`\n")
+    md.append(s"-  `${u.objectComponent}` is indexed to reference image `${imgs.head}`\n")
     val imgTxts = dse.textsForImage(imgs.head)
     if (imgTxts.size == tbsTxts.size) {
-        md.append("- DSE relations are consistent: ")
-        md.append(s"${imgTxts.size} text passages indexed to ${imgs.head.objectComponent}\n\n")
+        md.append(s"- **${imgTxts.size}** text passages are indexed to ${imgs.head.objectComponent}\n")
+        md.append(s"-  **${tbsTxts.size}** text passages are indexed to ${u.objectComponent}\n")
     } else {
-      errors.append(s"- Error in indexing: ${imgTxts.size} text passages indexed top image ${imgs.head.objectComponent}, but ${tbsTxts.size} passages indexed to page ${u.objectComponent}\n\n")
+      errors.append(s"- Error in indexing: ${imgTxts.size} text passages indexed top image ${imgs.head.objectComponent}, but ${tbsTxts.size} passages indexed to page ${u.objectComponent}\n")
     }
+
 
     if (errors.nonEmpty) {
       md.append("\n##Errors\n\n" + errors.toString + "\n\n")
-    } else { md.append("No errors found.\n\n")}
+    } else { md.append("\nResults are consistent: no errors found.\n\n")}
+
+    md.append("## Human verification\n\n")
+    md.append(s"To check for **completeness** of coverage, please review [all DSE relations of page ${u.objectComponent} in ICT2](${dse.ictForSurface(u)}.)\n\n")
+
     md
   }
 
