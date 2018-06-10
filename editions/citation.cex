@@ -1,3 +1,7 @@
 Text URN#Format#Document#Namespace mapping#Citation model
 urn:cts:greekLit:tlg0012.tlg001.va_xml:#xml#iliad/venetusA_Iliad.xml#tei->http://www.tei-c.org/ns/1.0#/tei:TEI/tei:text/tei:body/tei:div[@n = '?']/tei:l[@n = '?']
 urn:cts:greekLit:tlg5026.msAext.hmt_xml:#xml#scholia/venA_Exterior.xml#tei->http://www.tei-c.org/ns/1.0#/tei:TEI/tei:text/tei:group[@n = '?']/tei:text/tei:body/tei:div[@n = '?']/tei:div[@n = '?']
+urn:cts:greekLit:tlg5026.msAint.hmt_xml:#xml#scholia/venA_Interior.xml#tei->http://www.tei-c.org/ns/1.0#/tei:TEI/tei:text/tei:group[@n = '?']/tei:text/tei:body/tei:div[@n = '?']/tei:div[@n = '?']
+urn:cts:greekLit:tlg5026.msAil.hmt_xml:#xml#scholia/venA_Interlinear.xml#tei->http://www.tei-c.org/ns/1.0#/tei:TEI/tei:text/tei:group[@n = '?']/tei:text/tei:body/tei:div[@n = '?']/tei:div[@n = '?']
+urn:cts:greekLit:tlg5026.msAim.hmt_xml:#xml#scholia/venA_Intermarginal.xml#tei->http://www.tei-c.org/ns/1.0#/tei:TEI/tei:text/tei:group[@n = '?']/tei:text/tei:body/tei:div[@n = '?']/tei:div[@n = '?']
+urn:cts:greekLit:tlg5026.msA.hmt_xml:#xml#scholia/venA_Main.xml#tei->http://www.tei-c.org/ns/1.0#/tei:TEI/tei:text/tei:group[@n = '?']/tei:text/tei:body/tei:div[@n = '?']/tei:div[@n = '?']

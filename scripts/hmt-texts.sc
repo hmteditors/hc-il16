@@ -11,6 +11,7 @@ val editions = "editions"
 
 val textRepo = TextRepositorySource.fromFiles(catalog, citation, editions)
 
+val corpus = Corpus(textRepo.corpus.nodes.filterNot((_.urn.toString.contains("ref"))))
 //val tokens = TeiReader.fromCorpus(textRepo.corpus)
 
 case class StringCount(s: String, count: Int)
