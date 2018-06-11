@@ -20,7 +20,7 @@
                 <body>
                 <div n="220r_1" type="scholion">
                         <div n="lemma">
-                            <p> ‡ ὡς <choice><sic>φάτο</sic><corr>φᾶτω</corr></choice>, <persName n="urn:cite2:hmt:pers:pers158">Πάτροκλος</persName> δ' ἀνεχάζετο πολλὸν oπίσσω:</p>
+                            <p> ‡ ὡς <choice><sic>φάτο</sic><corr>φᾶτο</corr></choice>, <persName n="urn:cite2:hmt:pers:pers158">Πάτροκλος</persName> δ' ἀνεχάζετο πολλὸν oπίσσω:</p>
                         </div>
                         <div n="ref">
                             <p>urn:cts:greekLit:tlg0012.tlg001.msA:16.710</p>
@@ -31,7 +31,7 @@
                 </div>
                 <div n="220r_2" type="scholion">
                         <div n="lemma">
-                            <p>αὐτοκασίγνητος Ἑκάβης:</p>
+                            <p>αὐτοκασίγνητος <persName n="urn:cite2:hmt:pers:pers535">Ἑκάβης</persName>:</p>
                         </div>
                         <div n="ref">
                             <p>urn:cts:greekLit:tlg0012.tlg001.msA:16.719</p>
