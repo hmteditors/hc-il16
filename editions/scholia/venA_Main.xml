@@ -38,7 +38,7 @@
                             <p>urn:cts:greekLit:tlg0012.tlg001.msA:16.719</p>
                         </div>
                         <div n="comment">
-                        <p>ὅτι<persName n="urn:cite2:hmt:pers:pers17"> Ὅμηρος</persName>  τὴν <persName n="urn:cite2:hmt:pers:pers535">Ἑκάβην</persName><persName n="urn:cite2:hmt:pers:pers!!"> Δύμαντος</persName> . ὁ δε <persName n="urn:cite2:hmt:pers:pers97"> Εὑριπίδης</persName><persName n="urn:cite2:hmt:pers:pers498"> Κισσέως</persName></p>
+                        <p>ὅτι<persName n="urn:cite2:hmt:pers:pers17"> Ὅμηρος</persName>  τὴν <persName n="urn:cite2:hmt:pers:pers535">Ἑκάβην</persName><persName n="urn:cite2:hmt:pers:pers">Δύμαντος</persName> . ὁ δε <persName n="urn:cite2:hmt:pers:pers97"> Εὑριπίδης</persName><persName n="urn:cite2:hmt:pers:pers498">Κισσέως</persName></p>
                         </div>
                       </div>
                 <div n="220r_3" type="scholion">
@@ -60,7 +60,7 @@
                             <p>urn:cts:greekLit:tlg0012.tlg001.msA:16.747</p>
                         </div>
                         <div n="comment">
-                        <p>ὅτι ἅπαξ εἴρηκε τήθεα· ἔστι δὲ εἶδος τῶν θαλασσίων ὁστρέων προς τοὺς Χωρίζοντας!! φασὶ γὰρ ὅτι ὁ τῆς <title type="urn" n="urn:cts:greekLit:tlg0012.tlg001:">Ἰλιάδος</title> ποιητὴς οὐ παρεισάγει τοὺς ἥρωας χρωμένους ἰχθύσιν. ὁ δὲ τῆς <title type="urn" n="urn:cts:greekLit:tlg0012.tlg002:"><choice><abbr>Οδ</abbr><expan>Ὀδυσσείας</expan></choice></title>· φανερὸν δὲ ὅτι εἰ και μὴ παράγει χρωμένους, ἴσασιν. ἐκ τοῦ τὸν <persName n="urn:cite2:hmt:pers:pers158">Πάτροκλον</persName> ὀνομάζειν τήθεα. νοητέον δὲ τὸν ποιητὴν δια τὸ μικροπρεπὲς παρῃτῆσθαι καὶ μὴν, οὐδὲ λαχάνοις παρεισάγει χρωμένους· ἀλλ' ὅμως φησὶ <cit><ref type="urn">urn:cts:greekLit:tlg0012.tlg002:17.299</ref><q>δμῶες <persName n="urn:cite2:hmt:pers:pers118">Ὀδυσσῆος</persName> τε μένος μέγα κοπρήσοντες</q></cit>⁑</p>
+                        <p>ὅτι ἅπαξ εἴρηκε τήθεα· ἔστι δὲ εἶδος τῶν θαλασσίων ὁστρέων προς τοὺς Χωρίζοντας φασὶ γὰρ ὅτι ὁ τῆς <title type="urn" n="urn:cts:greekLit:tlg0012.tlg001:">Ἰλιάδος</title> ποιητὴς οὐ παρεισάγει τοὺς ἥρωας χρωμένους ἰχθύσιν. ὁ δὲ τῆς <title type="urn" n="urn:cts:greekLit:tlg0012.tlg002:"><choice><abbr>Οδ</abbr><expan>Ὀδυσσείας</expan></choice></title>· φανερὸν δὲ ὅτι εἰ και μὴ παράγει χρωμένους, ἴσασιν. ἐκ τοῦ τὸν <persName n="urn:cite2:hmt:pers:pers158">Πάτροκλον</persName> ὀνομάζειν τήθεα. νοητέον δὲ τὸν ποιητὴν δια τὸ μικροπρεπὲς παρῃτῆσθαι καὶ μὴν, οὐδὲ λαχάνοις παρεισάγει χρωμένους· ἀλλ' ὅμως φησὶ <cit><ref type="urn">urn:cts:greekLit:tlg0012.tlg002:17.299</ref><q>δμῶες <persName n="urn:cite2:hmt:pers:pers118">Ὀδυσσῆος</persName> τε μένος μέγα κοπρήσοντες</q></cit>⁑</p>
                         </div>
                 </div>
                 <div n="220v_2" type="scholion">
@@ -236,7 +236,7 @@
                             <p>urn:cts:greekLit:tlg0012.tlg001.msA:16.854</p>
                         </div>
                         <div n="comment">
-                        <p>πόθεν ὁ <persName n="urn:cite2:hmt:pers:pers158">Πάτροκλος</persName> οῖδεν ὅτι <persName n="urn:cite2:hmt:pers:pers1">Ἀχιλλεὺς</persName> κτείνει τὸν <persName n="urn:cite2:hmt:pers:pers172">Ἕκτορα</persName>. ὥσπερ <persName n="urn:cite2:hmt:pers:pers1">Ἀχιλλεὺς</persName> ἀκούσας παρα <persName n="urn:cite2:hmt:pers:pers19">Θέτιδος</persName>. ὅτι κατ <persName n="urn:cite2:hmt:pers:pers!!">Αρτέμωνα τὸν Μιλήσιον</persName> ἐν τῷ <title>Περὶ ὀνείρων</title> ὅταν ἀθροισθῇ ψυχὴ ἐξ ὅλου τοῦ σώματος προς τὸ ἐκκριθῆναι μαντικωτάτη γίνεται, καὶ <persName n="urn:cite2:hmt:pers:pers137">Πλάτων</persName> ἐν <title><ref type="urn" n="urn:cts:greekLit:tlg0059.tlg002:">Ἀπολογίαις<persName n="urn:cite2:hmt:pers:pers!!"><choice><abbr>Σωκρατ</abbr><expan>Σωκράτους</expan></choice></persName></ref></title> <cit><ref type="urn">urn:cts:greekLit:tlg0059.tlg002:39c</ref><q>καὶ γὰρ εἰμὶ ἐνταῦθα ἐν ᾣ μάλιστα <choice><abbr>ἀνον</abbr><expan>ἄνθρωποι</expan></choice> χρησμῳδοῦσιν ὅταν μέλλωσιν ἀποθανεῖσθαι</q></cit>⁑</p>
+                        <p>πόθεν ὁ <persName n="urn:cite2:hmt:pers:pers158">Πάτροκλος</persName> οῖδεν ὅτι <persName n="urn:cite2:hmt:pers:pers1">Ἀχιλλεὺς</persName> κτείνει τὸν <persName n="urn:cite2:hmt:pers:pers172">Ἕκτορα</persName>. ὥσπερ <persName n="urn:cite2:hmt:pers:pers1">Ἀχιλλεὺς</persName> ἀκούσας παρα <persName n="urn:cite2:hmt:pers:pers19">Θέτιδος</persName>. ὅτι κατ <persName n="urn:cite2:hmt:pers:pers">Αρτέμωνα τὸν Μιλήσιον</persName> ἐν τῷ <title>Περὶ ὀνείρων</title> ὅταν ἀθροισθῇ ψυχὴ ἐξ ὅλου τοῦ σώματος προς τὸ ἐκκριθῆναι μαντικωτάτη γίνεται, καὶ <persName n="urn:cite2:hmt:pers:pers137">Πλάτων</persName> ἐν <title><ref type="urn" n="urn:cts:greekLit:tlg0059.tlg002:">Ἀπολογίαις<persName n="urn:cite2:hmt:pers:pers"><choice><abbr>Σωκρατ</abbr><expan>Σωκράτους</expan></choice></persName></ref></title> <cit><ref type="urn">urn:cts:greekLit:tlg0059.tlg002:39c</ref><q>καὶ γὰρ εἰμὶ ἐνταῦθα ἐν ᾣ μάλιστα <choice><abbr>ἀνον</abbr><expan>ἄνθρωποι</expan></choice> χρησμῳδοῦσιν ὅταν μέλλωσιν ἀποθανεῖσθαι</q></cit>⁑</p>
                         </div>
                 </div>
                 <div n="223r_1" type="scholion">
