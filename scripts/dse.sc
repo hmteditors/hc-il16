@@ -102,7 +102,7 @@ def pageView(pg: Cite2Urn, dse: DseVector, c: Corpus) : Unit= {
   bldr.append(textToDseDiff(dse,c, pg))
 
 
-  bldr.append("## Human verification\n\n")
+  bldr.append("\n\n## Human verification\n\n")
   bldr.append(s"To check for **completeness** of coverage, please review [all DSE relations of page ${pg.objectComponent} in ICT2](${dse.ictForSurface(pg)}).\n\n")
 
   new PrintWriter("validation/dse-" + pg.collection + "-" + pg.objectComponent + ".md"){ write (bldr.toString); close}
