@@ -127,11 +127,17 @@ def pageView(pg: Cite2Urn, dse: DseVector, c: Corpus) : Unit= {
   bldr.append(dseCoherenceReport(dse,c, pg))
 
 
-  bldr.append("\n\n## Human verification\n\n###Completeness\n\n")
+  bldr.append("\n\n## Human verification\n\n### Completeness\n\n")
   bldr.append(s"To check for **completeness** of coverage, please review [all DSE relations of page ${pg.objectComponent} in ICT2](${dse.ictForSurface(pg)}).\n\n")
 
-
-  bldr.append("\n\n###Correctness\n\n")
+  val texts =  dse.textsForTbs(pg).map(_.dropPassage).toVector
+  val listItems = for (txt <- texts) yield {
+    println("Create view for " + txt + " ...")
+    val oneDocDse = DseVector(dse.passages.filter(_.passage ~~ txt))
+    "-  all [passages in " + txt + "](" + oneDocDse.ictForSurface(pg) + ")."
+  }
+  bldr.append(listItems.mkString("\n"))
+  bldr.append("\n\n### Correctness\n\n")
   bldr.append("To check for **correctness** of indexing, please verify that text transcriptions and images agree:\n\n")
 
   bldr.append(passageView(dse, c, pg))
