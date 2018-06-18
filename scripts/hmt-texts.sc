@@ -12,7 +12,7 @@ val editions = "editions"
 val textRepo = TextRepositorySource.fromFiles(catalog, citation, editions)
 
 val corpus = Corpus(textRepo.corpus.nodes.filterNot((_.urn.toString.contains("ref"))))
-//val tokens = TeiReader.fromCorpus(textRepo.corpus)
+val tokens = TeiReader.fromCorpus(textRepo.corpus)
 
 case class StringCount(s: String, count: Int) {
   def cex :  String = {
@@ -85,9 +85,5 @@ def profileCorpus (c: Corpus, subdir: String = "validation") = {
   } else {
     println("No errors in tokenization.")
   }
-
-
-
-
 
 }
