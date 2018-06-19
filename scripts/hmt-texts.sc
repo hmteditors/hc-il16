@@ -22,7 +22,15 @@ case class StringCount(s: String, count: Int) {
 
 case class StringOccurrence(urn: CtsUrn, s: String)
 
+def stringSeq = tokens.map( tkn => {
+    // this step is ok...
+    StringOccurrence(tkn.analysis.editionUrn, tkn.analysis.readWithAlternate)
+  }
+)
 
+
+
+// Count number of tokens occurring for each token type
 def profileTokens(tokens: Vector[TokenAnalysis]) {
   val tokenTypes = tokens.map(_.analysis.lexicalCategory).distinct
   println("Token types:")
@@ -33,15 +41,19 @@ def profileTokens(tokens: Vector[TokenAnalysis]) {
 }
 
 def tokenHisto(tokens: Vector[TokenAnalysis]): Vector[StringCount] = {
-  val strs = tokens.map(_.readWithAlternate.text)
+  val strs = tokens.map(_.analysis.readWithAlternate)
   val grouped = strs.groupBy(w => w).toVector
   val counted =  grouped.map{ case (k,v) => StringCount(k,v.size) }
   counted.sortBy(_.count).reverse
 }
 
+
+
+
+
 def tokenIndex(tokens: Vector[TokenAnalysis]) : Vector[String] = {
-  def stringSeq = tokens.map( t => StringOccurrence(t.analysis.editionUrn, t.readWithAlternate.text))
   def grouped = stringSeq.groupBy ( occ => occ.s).toVector
+  println("Grouped StringOccurrences")
   val idx = for (grp <- grouped) yield {
     val str = grp._1
     val occurrences = grp._2.map(_.urn)
@@ -53,6 +65,7 @@ def tokenIndex(tokens: Vector[TokenAnalysis]) : Vector[String] = {
   idx.flatten
 }
 
+// Compile list of unique "words" (surface forms of tokens)
 def wordList(tokens: Vector[TokenAnalysis]): Vector[String] = {
   tokens.map(_.analysis.readWithAlternate).distinct
 }
@@ -67,6 +80,8 @@ def profileCorpus (c: Corpus, subdir: String = "validation") = {
   new PrintWriter(subdir + "/wordlist.txt"){ write(words.mkString("\n")); close;}
   val idx = tokenIndex(lexTokens)
   new PrintWriter(subdir + "/wordindex.txt"){ write(idx.mkString("\n")); close;}
+
+  // here's the bomb
   val histoCex = tokenHisto(lexTokens).map(_.cex)
   new PrintWriter(subdir +  "/wordhisto.cex"){write(histoCex.mkString("\n")); close; }
 

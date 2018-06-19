@@ -131,7 +131,7 @@ def pageView(pg: Cite2Urn, dse: DseVector, c: Corpus) : Unit= {
   bldr.append(s"To check for **completeness** of coverage, please review these visualizations of DSE relations in ICT2:\n\n")
 
 
-  bldr.append("- [**all** DSE relations of page ${pg.objectComponent} ](${dse.ictForSurface(pg)}).\n\n")
+  bldr.append(s"- [**all** DSE relations of page ${pg.objectComponent} ](${dse.ictForSurface(pg)}).\n\n")
 
   bldr.append("Visualizations for individual documents:\n\n")
   val texts =  dse.textsForTbs(pg).map(_.dropPassage).toVector
