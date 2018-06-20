@@ -4,14 +4,9 @@ import org.homermultitext.edmodel._
 import java.io.PrintWriter
 import java.text.Normalizer
 
-// Create a text repository.
-val catalog = "editions/catalog.cex"
-val citation = "editions/citation.cex"
-val editions = "editions"
+// Load the parallel file corpus.sc to load a corpus
+// of texts from files on disk prior to loading this script.
 
-val textRepo = TextRepositorySource.fromFiles(catalog, citation, editions)
-
-val corpus = Corpus(textRepo.corpus.nodes.filterNot((_.urn.toString.contains("ref"))))
 val tokens = TeiReader.fromCorpus(textRepo.corpus)
 
 
@@ -67,6 +62,7 @@ def profileTokens(tokens: Vector[TokenAnalysis]) {
   }
 }
 
+// Compute histogram of tokens
 def tokenHisto(tokens: Vector[TokenAnalysis]): Vector[StringCount] = {
   val strs = tokens.map(_.analysis.readWithAlternate)
   val grouped = strs.groupBy(w => w).toVector
@@ -74,10 +70,9 @@ def tokenHisto(tokens: Vector[TokenAnalysis]): Vector[StringCount] = {
   counted.sortBy(_.count).reverse
 }
 
-
+// Compile index of all tokens to URNs where they occur
 def tokenIndex(tokens: Vector[TokenAnalysis]) : Vector[String] = {
   def grouped = stringSeq.groupBy ( occ => occ.s).toVector
-  println("Grouped StringOccurrences")
   val idx = for (grp <- grouped) yield {
     val str = grp._1
     val occurrences = grp._2.map(_.urn)
@@ -94,9 +89,8 @@ def wordList(tokens: Vector[TokenAnalysis]): Vector[String] = {
   tokens.map(_.analysis.readWithAlternate).distinct
 }
 
-// compute historgram of code points and form markdown table
-def cpHistoMD(tokens: Vector[TokenAnalysis]) = {
-
+// Compute sequence of code points from sequence of tokens.
+def cpsFromTokens(tokens: Vector[TokenAnalysis]) = {
   val snormal = for (tkn <- tokens) yield {
     val rdgs = tkn.analysis.readings.map(_.reading).mkString
     //get alt reading string
@@ -106,22 +100,56 @@ def cpHistoMD(tokens: Vector[TokenAnalysis]) = {
     val str = (rdgs + alts).replaceAll("\\s","")
     Normalizer.normalize(str, Normalizer.Form.NFC)
   }
-  val cps = strToCps(snormal.mkString)
+  strToCps(snormal.mkString)
+}
+
+
+// compute histogram of code points, and compose
+// a  markdown table of the results.
+def cpHistoMD(tokens: Vector[TokenAnalysis]) : String = {
+  def cps = cpsFromTokens(tokens)
   val grouped = cps.groupBy(cp => cp).toVector
   val counted =  grouped.map{ case (k,v) => (k,v.size) }
   val histo = counted.sortBy(_._2).reverse
   val md = for ((cp, cnt) <- histo) yield {
     val ok = if (allowedCPs.contains(cp)) { "valid" } else { "**<span style=\"color:red\">invalid</span>**"}
-    val cols = List(cp.toHexString, new String(Array(cp), 0,1), ok)
+    val cols = List(cp.toHexString, new String(Array(cp), 0,1), cnt, ok)
     "| " + cols.mkString(" | ") + " | "
   }
-  val hdr = "| Unicode cp | String | Valid HMT? |\n| :------------- | :------------- |:------------- |\n"
+  val hdr = "| Unicode cp | String | Count | Valid HMT? |\n| :------------- | :------------- |:------------- |:------------- |\n"
   hdr + md.mkString("\n")
-  /*
-      for (cp <- cps) {
-        println(s"${cp} (${cp.toHexString}) = ${new String(Array(cp),0,1)} valid? ${allowedCPs.contains(cp)}")
-      }
-      */
+}
+
+// Dump an index of all invalid codepoints to file
+def badChars(tokens: Vector[TokenAnalysis]) = {
+  val citableCps = for (tkn <- tokens) yield {
+    val rdgs = tkn.analysis.readings.map(_.reading).mkString
+    //get alt reading string
+    val alts = if (tkn.hasAlternate) {
+      tkn.analysis.alternateReading.get.simpleString
+    } else { ""}
+    val str = (rdgs + alts).replaceAll("\\s","")
+    (tkn.analysis.editionUrn, strToCps(Normalizer.normalize(str, Normalizer.Form.NFC)))
+  }
+  val badList = citableCps.filter { case (u,cpList) =>
+    val checkOk =  cpList.map(allowedCPs.contains(_)).distinct
+    if ((checkOk.size == 1)  && (checkOk(0))) {
+    false } else { true }
+  }
+
+  val rept = for (bad <- badList) yield {
+    val itemReport = StringBuilder.newBuilder
+    val cps = bad._2
+    itemReport.append(bad._1.toString + " **" + new String(cps.toArray, 0,cps.size) + "** includes invalid characters: ")
+    val badChars = for (cp <- cps) yield {
+      if (! allowedCPs.contains(cp)) {
+        "<span style=\"color:red\">" + new String(Array(cp), 0,1) + s"</span> (${cp.toHexString})"
+      } else {""}
+    }
+    itemReport.append(badChars.filter(_.nonEmpty).mkString(", "))
+    itemReport.toString
+  }
+  rept
 }
 
 def profileCorpus (c: Corpus, subdir: String = "validation") = {
@@ -141,10 +169,15 @@ def profileCorpus (c: Corpus, subdir: String = "validation") = {
   val charHisto = cpHistoMD(tokens)
   new PrintWriter(subdir + "/codepointhisto.md"){write (charHisto); close;}
 
+
+  val badCharReport = badChars(tokens)
+  new PrintWriter(subdir + "/invalidCodepointIndex.md"){write (badCharReport.mkString("\n\n")); close;}
+
   println("\n\nWrote index of all lexical tokens in file 'wordindex.txt'.")
   println("Wrote list of unique lexical token forms in file 'wordlist.txt'")
   println("Wrote histogram of lexical token forms  in .cex format in file 'wordhisto.cex'")
   println("Wrote histogram of all unicode code points  in markdown format in file 'codepointhisto.md'")
+  println("Wrote list of all tokens including invalid code point  in markdown format in file 'invalidCodepointIndex.md'")
 
 
   val errs = tokens.filter(_.analysis.errors.nonEmpty).map(err => "\n" + err.analysis.editionUrn.toString + s" has ${err.analysis.errors.size} error(s)\n\t" + err.analysis.errors.mkString("\n\t"))
@@ -157,5 +190,8 @@ def profileCorpus (c: Corpus, subdir: String = "validation") = {
   } else {
     println("No errors in tokenization.")
   }
-
 }
+
+
+println("\n\nProfile a corpus of texts:")
+println("\n\tprofileCorpus(CORPUS)")
