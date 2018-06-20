@@ -27,14 +27,30 @@
     </p>
   </div>
   <div n="ref">
-    <p>urn:cts:greekLit:tlg0012.tlg001.msA:16.719</p>
+    <p>urn:cts:greekLit:tlg0012.tlg001.msA:16.737</p>
   </div>
   <div n="comment">
     <p>
-    <choice><abbr>οτ</abbr><expan>ὅτι</expan></choice> <persName n="urn:cite2:hmt:pers:pers17"> Ὅμηρος </persName> ἑτέραν τὴν <placeName n="urn:cite2:hmt:place:place231">Φρυγίαν</placeName> τῆς <placeName n="urn:cite2:hmt:place:place6">Τροίας </placeName>οῖδεν⁑
+    ηὐλαβηθη αντί τοῦ οῦδε ὁλως ηυλαβηθη αυτόν⁑
     </p>
     </div>
   </div>
+
+  <div n="220v_1" type="scholion">
+    <div n="lemma">
+      <p>
+      </p>
+    </div>
+    <div n="ref">
+      <p>urn:cts:greekLit:tlg0012.tlg001.msA:16.719</p>
+    </div>
+    <div n="comment">
+      <p>
+      <choice><abbr>οτ</abbr><expan>ὅτι</expan></choice> <persName n="urn:cite2:hmt:pers:pers17"> Ὅμηρος </persName> ἑτέραν τὴν <placeName n="urn:cite2:hmt:place:place231">Φρυγίαν</placeName> τῆς <placeName n="urn:cite2:hmt:place:place6">Τροίας </placeName>οῖδεν⁑
+      </p>
+      </div>
+    </div>
+
   <div n="221r_1" type="scholion">
     <div n="lemma">
       <p>
