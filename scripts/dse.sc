@@ -63,6 +63,8 @@ def mdForPage(u: Cite2Urn, dse: DseVector, c: Corpus): String = {
   md.toString
 }
 
+
+// Format markdown paragraphs juxtaposing edition of text with RoI of image
 def passageView(dse: DseVector, corpus: Corpus, surface: Cite2Urn) : String = {
   val indexedPassages = dse.textsForTbs(surface).toVector
   val viewMd = StringBuilder.newBuilder
@@ -70,16 +72,18 @@ def passageView(dse: DseVector, corpus: Corpus, surface: Cite2Urn) : String = {
     val matches = corpus ~~ psg
     matches.size match {
       case 0 => "**Error**:  no text in corpus matching " + psg
-""      case 1 => {
+      case 1 => {
         val textReading = TeiReader.fromString(matches.nodes(0).cex("#")).map(_.analysis.readWithDiplomatic).mkString(" ")
         val binaryImgBase = "http://www.homermultitext.org/iipsrv?OBJ=IIP,1.0&FIF=/project/homer/pyramidal/deepzoom/"
 
         val imgWRoI = dse.imagesWRoiForText(psg).head
 
         val imgPath = List(imgWRoI.namespace, imgWRoI.collection, imgWRoI.version, imgWRoI.dropExtensions.objectComponent).mkString("/") + ".tif&RGN=" + imgWRoI.objectExtension + "&WID=5000&CVT=JPEG"
-
         val imgs = "![image]("  + binaryImgBase + imgPath  + ")"
-        textReading + " " + imgs
+
+        val label = psg.textGroup + "." + psg.work + ": " + psg.passageComponent
+
+        textReading + " (" + label + ") " + imgs
       }
       case _ => "**Error**: multiple matches in corpus for " + psg
     }
