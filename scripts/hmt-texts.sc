@@ -7,7 +7,7 @@ import java.text.Normalizer
 // Load the parallel file corpus.sc to load a corpus
 // of texts from files on disk prior to loading this script.
 
-val tokens = TeiReader.fromCorpus(textRepo.corpus)
+val tokens = TeiReader.fromCorpus(corpus)
 
 
 // HMT definitions that should be moved into a proper class
