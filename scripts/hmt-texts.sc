@@ -2,7 +2,7 @@ import edu.holycross.shot.ohco2._
 import edu.holycross.shot.cite._
 import org.homermultitext.edmodel._
 import java.io.PrintWriter
-
+import java.text.Normalizer
 
 // Create a text repository.
 val catalog = "editions/catalog.cex"
@@ -13,6 +13,33 @@ val textRepo = TextRepositorySource.fromFiles(catalog, citation, editions)
 
 val corpus = Corpus(textRepo.corpus.nodes.filterNot((_.urn.toString.contains("ref"))))
 val tokens = TeiReader.fromCorpus(textRepo.corpus)
+
+
+// HMT definitions that should be moved into a proper class
+val elision = '\u0027'
+val fishtail = '\u2051'
+val cross = '\u2021'
+val punctCPs = Vector('\u003a', '\u003b', '\u002c' , '\u002e', elision, fishtail, cross)
+
+// Vector.range() yields values up to but not including second param, e.g.,
+// Vector.range(1,3) == Vector(1,2)
+val basicAlphabetCPs = Vector.range('\u0391', '\u03a2') ++   Vector.range('\u03a3', '\u03aa') ++  Vector.range('\u0381', '\u03ca')
+
+// omit undefined CPs in the extended Greek range.
+val combinedFormCPs =   Vector.range('\u1f00','\u1f16') ++  Vector.range('\u1f18','\u1f1e') ++ Vector.range('\u1f20', '\u1f46') ++ Vector.range('\u1f48', '\u1f4e') ++ Vector.range('\u1f50', '\u1f58') ++ Vector('\u1f59', '\u1f5b', '\u1f5d') ++ Vector.range('\u1f5f', '\u1f7e') ++ Vector.range('\u1f80', '\u1fb5') ++ Vector.range('\u1fb6','\u1fbd') ++ Vector.range('\u1fc2', '\u1fc5') ++ Vector.range('\u1fc6','\u1fcd') ++ Vector.range('\u1fd0', '\u1fd4') ++ Vector.range('\u1fd6', '\u1fdc') ++ Vector.range('\u1fe0','\u1fed') ++ Vector.range('\u1ff2','\u1ff5') ++ Vector.range('\u1ff6','\u1ffd')
+
+val allowedCPs = basicAlphabetCPs ++  punctCPs ++  combinedFormCPs
+
+// turns a string into a vector of codepoints
+def strToCps(s: String, cpVector: Vector[Int] = Vector.empty[Int], idx : Int = 0) : Vector[Int] = {
+	if (idx >= s.length) {
+		cpVector
+	} else {
+		val cp = s.codePointAt(idx)
+		strToCps(s, cpVector :+ cp, idx + java.lang.Character.charCount(cp))
+	}
+}
+
 
 case class StringCount(s: String, count: Int) {
   def cex :  String = {
@@ -48,9 +75,6 @@ def tokenHisto(tokens: Vector[TokenAnalysis]): Vector[StringCount] = {
 }
 
 
-
-
-
 def tokenIndex(tokens: Vector[TokenAnalysis]) : Vector[String] = {
   def grouped = stringSeq.groupBy ( occ => occ.s).toVector
   println("Grouped StringOccurrences")
@@ -70,6 +94,35 @@ def wordList(tokens: Vector[TokenAnalysis]): Vector[String] = {
   tokens.map(_.analysis.readWithAlternate).distinct
 }
 
+// compute historgram of code points and form markdown table
+def cpHistoMD(tokens: Vector[TokenAnalysis]) = {
+
+  val snormal = for (tkn <- tokens) yield {
+    val rdgs = tkn.analysis.readings.map(_.reading).mkString
+    //get alt reading string
+    val alts = if (tkn.hasAlternate) {
+      tkn.analysis.alternateReading.get.simpleString
+    } else { ""}
+    val str = (rdgs + alts).replaceAll("\\s","")
+    Normalizer.normalize(str, Normalizer.Form.NFC)
+  }
+  val cps = strToCps(snormal.mkString)
+  val grouped = cps.groupBy(cp => cp).toVector
+  val counted =  grouped.map{ case (k,v) => (k,v.size) }
+  val histo = counted.sortBy(_._2).reverse
+  val md = for ((cp, cnt) <- histo) yield {
+    val ok = if (allowedCPs.contains(cp)) { "valid" } else { "**<span style=\"color:red\">invalid</span>**"}
+    val cols = List(cp.toHexString, new String(Array(cp), 0,1), ok)
+    "| " + cols.mkString(" | ") + " | "
+  }
+  val hdr = "| Unicode cp | String | Valid HMT? |\n| :------------- | :------------- |:------------- |\n"
+  hdr + md.mkString("\n")
+  /*
+      for (cp <- cps) {
+        println(s"${cp} (${cp.toHexString}) = ${new String(Array(cp),0,1)} valid? ${allowedCPs.contains(cp)}")
+      }
+      */
+}
 
 def profileCorpus (c: Corpus, subdir: String = "validation") = {
   println("Citable nodes:  " + c.size)
@@ -81,14 +134,18 @@ def profileCorpus (c: Corpus, subdir: String = "validation") = {
   val idx = tokenIndex(lexTokens)
   new PrintWriter(subdir + "/wordindex.txt"){ write(idx.mkString("\n")); close;}
 
-  // here's the bomb
   val histoCex = tokenHisto(lexTokens).map(_.cex)
   new PrintWriter(subdir +  "/wordhisto.cex"){write(histoCex.mkString("\n")); close; }
 
 
+  val charHisto = cpHistoMD(tokens)
+  new PrintWriter(subdir + "/codepointhisto.md"){write (charHisto); close;}
+
   println("\n\nWrote index of all lexical tokens in file 'wordindex.txt'.")
   println("Wrote list of unique lexical token forms in file 'wordlist.txt'")
   println("Wrote histogram of lexical token forms  in .cex format in file 'wordhisto.cex'")
+  println("Wrote histogram of all unicode code points  in markdown format in file 'codepointhisto.md'")
+
 
   val errs = tokens.filter(_.analysis.errors.nonEmpty).map(err => "\n" + err.analysis.editionUrn.toString + s" has ${err.analysis.errors.size} error(s)\n\t" + err.analysis.errors.mkString("\n\t"))
   println("\n\nWrote index of all lexical tokens in file 'wordindex.txt'.")
