@@ -128,7 +128,7 @@
                     <p>urn:cts:greekLit:tlg0012.tlg001.msA:16.793</p>
                   </div>
                   <div n="comment">
-                    <p>ἐντευθεν <choice><abbr>εστ</abbr><expan>ἔστιν</expan></choice>ὁρᾶν τὴν <choice><abbr>προσπαθ</abbr><expan>προσπάθειαν</expan></choice> τοῦ ποιητοῦ ὅτι τὴν αριστείαν τοῦ <persName n="urn:cite2:hmt:pers:pers172">Ἕκτορος</persName> τῷ <persName n="urn:cite2:hmt:pers:pers40">Ἀπόλλωνι</persName> περιτίθησι⁑</p>
+                    <p>ἐντευθέν <choice><abbr>εστ</abbr><expan>ἐστιν</expan></choice>ὁρᾶν τὴν <choice><abbr>προσπαθ</abbr><expan>προσπάθειαν</expan></choice> τοῦ ποιητοῦ ὅτι τὴν αριστείαν τοῦ <persName n="urn:cite2:hmt:pers:pers172">Ἕκτορος</persName> τῷ <persName n="urn:cite2:hmt:pers:pers40">Ἀπόλλωνι</persName> περιτίθησι⁑</p>
                     </div>
                   </div>
                   <div n="221v_2" type="scholion">
@@ -176,7 +176,7 @@
                             <p>urn:cts:greekLit:tlg0012.tlg001.msA:16.854</p>
                           </div>
                           <div n="comment">
-                            <p> ἐκ πλήρους τὸ <q><choice><abbr>δαμεντ</abbr><expan>δαμέντι</expan></choice></q> <persName n="urn:cite2:hmt:pers:pers16">Αρισταρχος</persName></p>
+                            <p> ἐκ πλήρους τὸ <q><choice><abbr>δαμεντ</abbr><expan>δαμέντι</expan></choice></q> <persName n="urn:cite2:hmt:pers:pers16">Αρίσταρχος</persName></p>
                             </div>
                           </div>
 </body>
