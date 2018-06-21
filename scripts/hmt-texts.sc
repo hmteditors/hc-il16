@@ -28,9 +28,19 @@ val fishtail = '\u2051'
 val cross = '\u2021'
 val backslash = '\\'
 val punctCPs = Vector('\u003a', '\u003b', '\u002c' , '\u002e', elision, fishtail, cross, '-')
+val quants = Vector(
+  '_', // macron
+  '^' // breve
+)
 
 
-val floatChars = Vector(backslash, '+', '/')
+val floatChars = Vector(
+  backslash, // grave
+  '+',  // diaeresis
+  '/',  // acute
+  '_', // macron
+  '^' // breve
+)
 
 // Vector.range() yields values up to but not including second param, e.g.,
 // Vector.range(1,3) == Vector(1,2)
