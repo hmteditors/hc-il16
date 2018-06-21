@@ -10,13 +10,15 @@ import java.text.Normalizer
 val tokens = TeiReader.fromCorpus(corpus)
 
 // Mapping of Modern Greek to Ancient Greek blocks of Unicode
-val greekCpMap = Map (
-  // diaeresis
-  '\u03ca'.toInt -> '\u0000', // omicron
+val greekCpMap = Map ( 
   // tonos:
+  '\u03ac'.toInt -> '\u1f71', // alpha
+  '\u03ad'.toInt -> '\u1f73',//epsilon
   '\u03cc'.toInt -> '\u1f79', // omicron
   '\u03cd'.toInt -> '\u1f7b', // upsilon
-  '\u03ce'.toInt -> '\u1f7d' // omega
+  '\u03ce'.toInt -> '\u1f7d', // omega
+  // elision
+  '\u1fbd'.toInt -> '\u0027'
 
 )
 
