@@ -176,7 +176,7 @@ def validate(pageUrn: String, corpus: Corpus) : Unit = {
   pageView(u, dse, corpus)
 
   val pageCorpus = corpusForPage(u, dse, corpus)
-  profileCorpus(pageCorpus)
+  profileCorpus(pageCorpus, u.objectComponent)
 }
 
 println("\n\nValidate DSE relations for a given page:")

@@ -66,8 +66,6 @@ def stringSeq = tokens.map( tkn => {
   }
 )
 
-
-
 // Count number of tokens occurring for each token type
 def profileTokens(tokens: Vector[TokenAnalysis]) {
   val tokenTypes = tokens.map(_.analysis.lexicalCategory).distinct
@@ -179,26 +177,26 @@ def badChars(tokens: Vector[TokenAnalysis]) = {
   rept
 }
 
-def profileCorpus (c: Corpus, subdir: String = "validation") = {
+def profileCorpus (c: Corpus, fileBase: String, subdir: String = "validation") = {
   println("Citable nodes:  " + c.size)
   val tokens = TeiReader.fromCorpus(c)
   profileTokens(tokens)
   val lexTokens = tokens.filter(_.analysis.lexicalCategory == LexicalToken)
   val words = wordList(lexTokens)
-  new PrintWriter(subdir + "/wordlist.txt"){ write(words.mkString("\n")); close;}
+  new PrintWriter(subdir + s"/${fileBase}-wordlist.txt"){ write(words.mkString("\n")); close;}
   val idx = tokenIndex(lexTokens)
-  new PrintWriter(subdir + "/wordindex.txt"){ write(idx.mkString("\n")); close;}
+  new PrintWriter(subdir + s"/${fileBase}-wordindex.txt"){ write(idx.mkString("\n")); close;}
 
   val histoCex = tokenHisto(lexTokens).map(_.cex)
-  new PrintWriter(subdir +  "/wordhisto.cex"){write(histoCex.mkString("\n")); close; }
+  new PrintWriter(subdir +  s"/${fileBase}-wordhisto.cex"){write(histoCex.mkString("\n")); close; }
 
 
   val charHisto = cpHistoMD(tokens)
-  new PrintWriter(subdir + "/codepointhisto.md"){write (charHisto); close;}
+  new PrintWriter(subdir + s"/${fileBase}-codepointhisto.md"){write (charHisto); close;}
 
 
   val badCharReport = badChars(tokens)
-  new PrintWriter(subdir + "/invalidCodepointIndex.md"){write (badCharReport.mkString("\n\n")); close;}
+  new PrintWriter(subdir + s"/${fileBase}-invalidCodepointIndex.md"){write (badCharReport.mkString("\n\n")); close;}
 
   println("\n\nWrote index of all lexical tokens in file 'wordindex.txt'.")
   println("Wrote list of unique lexical token forms in file 'wordlist.txt'")
@@ -212,7 +210,7 @@ def profileCorpus (c: Corpus, subdir: String = "validation") = {
   println("Wrote list of unique lexical token forms in file 'wordlist.txt'")
 
   if (errs.nonEmpty) {
-    new PrintWriter("errors.txt"){ write(errs.mkString("\n")); close;}
+    new PrintWriter(s"${fileBase}-errors.txt"){ write(errs.mkString("\n")); close;}
     println("Wrote list of errors in parsing tokens to file 'errors.txt'")
   } else {
     println("No errors in tokenization.")
@@ -221,4 +219,4 @@ def profileCorpus (c: Corpus, subdir: String = "validation") = {
 
 
 println("\n\nProfile a corpus of texts:")
-println("\n\tprofileCorpus(CORPUS)")
+println("\n\tprofileCorpus(CORPUS, FILENAME)")
