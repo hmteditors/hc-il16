@@ -154,10 +154,29 @@ def pageView(pg: Cite2Urn, dse: DseVector, c: Corpus) : Unit= {
   println("Markdown report is in validation directory: dse-" + pg.collection + "-" + pg.objectComponent + ".md")
 }
 
+
+def mergeCorpusVector(v: Vector[Corpus], composite: Corpus):  Corpus = {
+  if (v.isEmpty) {
+    composite
+  } else {
+    val nextCorp = composite ++ v.head
+    mergeCorpusVector(v.tail, nextCorp)
+  }
+}
+def corpusForPage(pg: Cite2Urn, dse: DseVector, c: Corpus) = {
+  val textUrns = dse.textsForTbs(pg).toVector
+  val miniCorpora = for (u <- textUrns) yield {
+    c ~~ u
+  }
+  mergeCorpusVector(miniCorpora, Corpus(Vector.empty[CitableNode]))
+}
 def validate(pageUrn: String, corpus: Corpus) : Unit = {
   val u = Cite2Urn(pageUrn)
   println("Validating page " + u + "...")
   pageView(u, dse, corpus)
+
+  val pageCorpus = corpusForPage(u, dse, corpus)
+  profileCorpus(pageCorpus)
 }
 
 println("\n\nValidate DSE relations for a given page:")
