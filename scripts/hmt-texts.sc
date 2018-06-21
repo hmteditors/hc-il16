@@ -10,7 +10,7 @@ import java.text.Normalizer
 val tokens = TeiReader.fromCorpus(corpus)
 
 // Mapping of Modern Greek to Ancient Greek blocks of Unicode
-val greekCpMap = Map ( 
+val greekCpMap = Map (
   // tonos:
   '\u03ac'.toInt -> '\u1f71', // alpha
   '\u03ad'.toInt -> '\u1f73',//epsilon
@@ -27,7 +27,7 @@ val elision = '\u0027'
 val fishtail = '\u2051'
 val cross = '\u2021'
 val backslash = '\\'
-val punctCPs = Vector('\u003a', '\u003b', '\u002c' , '\u002e', elision, fishtail, cross)
+val punctCPs = Vector('\u003a', '\u003b', '\u002c' , '\u002e', elision, fishtail, cross, '-')
 
 
 val floatChars = Vector(backslash, '+', '/')
