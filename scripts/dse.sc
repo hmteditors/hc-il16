@@ -120,7 +120,7 @@ def dseCoherenceReport(dse: DseVector, corpus: Corpus, surface: Cite2Urn) : Stri
   bldr.toString
 }
 
-try {
+//try {
   val dse = DseVector(srcAll)
 
 
@@ -156,8 +156,6 @@ try {
     new PrintWriter("validation/dse-" + pg.collection + "-" + pg.objectComponent + ".md"){ write (bldr.toString); close}
     println("Markdown report is in validation directory: dse-" + pg.collection + "-" + pg.objectComponent + ".md")
   }
-
-
   def mergeCorpusVector(v: Vector[Corpus], composite: Corpus):  Corpus = {
     if (v.isEmpty) {
       composite
@@ -189,12 +187,12 @@ try {
   println("\n\tvalidate(PAGEURN, CORPUS)\n\n")
 
 
-} catch {
+/*} catch {
   case t: Throwable => {
     println("\n\nERROR:  could not parse DSE data.")
     println("Error was: " + t)
   }
-}
+} */
 
 
 
