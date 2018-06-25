@@ -18,7 +18,7 @@ val ict = "http://www.homermultitext.org/ict2/"
 
 val libHeader = DataCollector.compositeFiles(libDir, "cex")
 val dseCex = DataCollector.compositeFiles(dseDir, "cex")
-val records = dseCex.split("\n").filterNot(_.contains("passage#")).toVector
+val records = dseCex.split("\n").filter(_.nonEmpty).filterNot(_.contains("passage#")).toVector
 
 // This value must agree with header data in header/1.dse-prolog.cex.
 val baseUrn = "urn:cite2:validate:tempDse.temp:"
@@ -27,7 +27,7 @@ val dseRecords = for ((record, count) <- records.zipWithIndex) yield {
 }
 
 val srcAll = libHeader + dseRecords.mkString("\n")
-val dse = DseVector(srcAll)
+
 
 def plural[T](v: Set[T]): String = {
   if (v.size == 1) { "s" } else {""}
@@ -119,69 +119,82 @@ def dseCoherenceReport(dse: DseVector, corpus: Corpus, surface: Cite2Urn) : Stri
   }
   bldr.toString
 }
-/** Writes a markdown file with a link to ICT2
-* view of a requested page.  The output file is named
-* "dse-COLLECTION-OBJEct.md".
-*
-* @param pageUrn URN of page
-*/
-def pageView(pg: Cite2Urn, dse: DseVector, c: Corpus) : Unit= {
-  val bldr = StringBuilder.newBuilder
-  bldr.append(mdForPage(pg, dse, c))
-  bldr.append(dseCoherenceReport(dse,c, pg))
+
+try {
+  val dse = DseVector(srcAll)
 
 
-  bldr.append("\n\n## Human verification\n\n###  Completeness\n\n")
-  bldr.append(s"To check for **completeness** of coverage, please review these visualizations of DSE relations in ICT2:\n\n")
+  /** Writes a markdown file with a link to ICT2
+  * view of a requested page.  The output file is named
+  * "dse-COLLECTION-OBJEct.md".
+  *
+  * @param pageUrn URN of page
+  */
+  def pageView(pg: Cite2Urn, dse: DseVector, c: Corpus) : Unit= {
+    val bldr = StringBuilder.newBuilder
+    bldr.append(mdForPage(pg, dse, c))
+    bldr.append(dseCoherenceReport(dse,c, pg))
 
+    bldr.append("\n\n## Human verification\n\n###  Completeness\n\n")
+    bldr.append(s"To check for **completeness** of coverage, please review these visualizations of DSE relations in ICT2:\n\n")
+    bldr.append(s"- [**all** DSE relations of page ${pg.objectComponent} ](${dse.ictForSurface(pg)}).\n\n")
 
-  bldr.append(s"- [**all** DSE relations of page ${pg.objectComponent} ](${dse.ictForSurface(pg)}).\n\n")
+    bldr
+    .append("Visualizations for individual documents:\n\n")
+    val texts =  dse.textsForTbs(pg).map(_.dropPassage).toVector
+    val listItems = for (txt <- texts) yield {
+      println("Create view for " + txt + " ...")
+      val oneDocDse = DseVector(dse.passages.filter(_.passage ~~ txt))
+      "-  all [passages in " + txt + "](" + oneDocDse.ictForSurface(pg) + ")."
+    }
+    bldr.append(listItems.mkString("\n"))
+    bldr.append("\n\n### Correctness\n\n")
+    bldr.append("To check for **correctness** of indexing, please verify that text transcriptions and images agree:\n\n")
 
-  bldr.append("Visualizations for individual documents:\n\n")
-  val texts =  dse.textsForTbs(pg).map(_.dropPassage).toVector
-  val listItems = for (txt <- texts) yield {
-    println("Create view for " + txt + " ...")
-    val oneDocDse = DseVector(dse.passages.filter(_.passage ~~ txt))
-    "-  all [passages in " + txt + "](" + oneDocDse.ictForSurface(pg) + ")."
+    bldr.append(passageView(dse, c, pg))
+
+    new PrintWriter("validation/dse-" + pg.collection + "-" + pg.objectComponent + ".md"){ write (bldr.toString); close}
+    println("Markdown report is in validation directory: dse-" + pg.collection + "-" + pg.objectComponent + ".md")
   }
-  bldr.append(listItems.mkString("\n"))
-  bldr.append("\n\n### Correctness\n\n")
-  bldr.append("To check for **correctness** of indexing, please verify that text transcriptions and images agree:\n\n")
-
-  bldr.append(passageView(dse, c, pg))
-
-  new PrintWriter("validation/dse-" + pg.collection + "-" + pg.objectComponent + ".md"){ write (bldr.toString); close}
-  println("Markdown report is in validation directory: dse-" + pg.collection + "-" + pg.objectComponent + ".md")
-}
 
 
-def mergeCorpusVector(v: Vector[Corpus], composite: Corpus):  Corpus = {
-  if (v.isEmpty) {
-    composite
-  } else {
-    val nextCorp = composite ++ v.head
-    mergeCorpusVector(v.tail, nextCorp)
+  def mergeCorpusVector(v: Vector[Corpus], composite: Corpus):  Corpus = {
+    if (v.isEmpty) {
+      composite
+    } else {
+      val nextCorp = composite ++ v.head
+      mergeCorpusVector(v.tail, nextCorp)
+    }
+  }
+  def corpusForPage(pg: Cite2Urn, dse: DseVector, c: Corpus) = {
+    val textUrns = dse.textsForTbs(pg).toVector
+    val miniCorpora = for (u <- textUrns) yield {
+      c ~~ u
+    }
+    mergeCorpusVector(miniCorpora, Corpus(Vector.empty[CitableNode]))
+  }
+  def validate(pageUrn: String, corpus: Corpus) : Unit = {
+    val u = Cite2Urn(pageUrn)
+    println("Validating page " + u + "...")
+    pageView(u, dse, corpus)
+
+    val pageCorpus = corpusForPage(u, dse, corpus)
+    profileCorpus(pageCorpus, u.objectComponent)
+  }
+
+
+
+
+  println("\n\nValidate DSE relations for a given page:")
+  println("\n\tvalidate(PAGEURN, CORPUS)\n\n")
+
+
+} catch {
+  case t: Throwable => {
+    println("\n\nERROR:  could not parse DSE data.")
+    println("Error was: " + t)
   }
 }
-def corpusForPage(pg: Cite2Urn, dse: DseVector, c: Corpus) = {
-  val textUrns = dse.textsForTbs(pg).toVector
-  val miniCorpora = for (u <- textUrns) yield {
-    c ~~ u
-  }
-  mergeCorpusVector(miniCorpora, Corpus(Vector.empty[CitableNode]))
-}
-def validate(pageUrn: String, corpus: Corpus) : Unit = {
-  val u = Cite2Urn(pageUrn)
-  println("Validating page " + u + "...")
-  pageView(u, dse, corpus)
-
-  val pageCorpus = corpusForPage(u, dse, corpus)
-  profileCorpus(pageCorpus, u.objectComponent)
-}
-
-println("\n\nValidate DSE relations for a given page:")
-println("\n\tvalidate(PAGEURN, CORPUS)\n\n")
-
 
 
 
